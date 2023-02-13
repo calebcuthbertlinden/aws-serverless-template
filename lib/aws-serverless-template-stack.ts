@@ -1,28 +1,50 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as apigw from 'aws-cdk-lib/aws-apigateway';
+import { AuthStack } from './auth-stack';
+import { UserStack } from './user-stack';
 
 export class AwsServerlessTemplateStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // Cognito
+    const stage = "ServerlessTemplate"
 
-    // DynamoDB
+    const REMOVAL_POLICY = cdk.RemovalPolicy.DESTROY;
 
-    // Lambda
-    const rootLambda = new lambda.Function(this, 'RootHandler', {
-      runtime: lambda.Runtime.NODEJS_16_X,    // execution environment
-      code: lambda.Code.fromAsset('lambda'),  // code loaded from "lambda" directory
-      handler: 'index.handler'                // file is "hello", function is "handler"
+    // Auth stack
+    // Contains Cognito user pool used for sign up and authentication
+    const authStack = new AuthStack(this, `${stage}AuthStack`, {
+      stage: stage,
+      removal_policy: REMOVAL_POLICY,
+      stackName: `${stage}AuthStack`,
+    });
+    new cdk.CfnOutput(this, 'IdentityPoolID', {
+      value: authStack.identityPool.ref,
+    });
+    new cdk.CfnOutput(this, 'UserPoolArn', {
+      value: authStack.userPool.userPoolArn,
+    });
+    new cdk.CfnOutput(this, 'UserPoolID', {
+      value: authStack.userPool.userPoolId,
+    });
+    new cdk.CfnOutput(this, 'UserPoolClientID', {
+      value: authStack.userPoolClient.userPoolClientId,
     });
 
-    // ApiGateway
-    const restApi = new apigw.LambdaRestApi(this, 'Endpoint', {
-      handler: rootLambda
+    // User stack
+    // Contains user table, api gateway and lambdas to return and create users
+    const userStack = new UserStack(this, `${stage}UserStack`, {
+      stage: stage,
+      removal_policy: REMOVAL_POLICY,
+      stackName: `${stage}UserStack`,
     });
-
+    new cdk.CfnOutput(this, 'UserLambda', {
+      value: userStack.rootLambda.functionArn,
+    });
+    new cdk.CfnOutput(this, 'UserApiEndpoint', {
+      value: userStack.restApi.url,
+    });
+    
   }
 }

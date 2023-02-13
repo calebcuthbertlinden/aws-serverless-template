@@ -1,6 +1,22 @@
 {
+  "ServerlessTemplateAuthStack": {
+    "ExportsOutputRefServerlessTemplateUserIdentityPool6A835AE7": "eu-west-1:d67060c6-901f-461d-b85a-0dbb98cf6efb",
+    "ExportsOutputRefServerlessTemplateUserPoolClient13E4B985F98DD77E": "32rbs9pf5lvrthh7dji06um27g",
+    "ExportsOutputRefServerlessTemplateUserPool192F1C661644E5FE": "eu-west-1_k4sXnTUMd",
+    "ExportsOutputFnGetAttServerlessTemplateUserPool192F1C66ArnCB53F2CE": "arn:aws:cognito-idp:eu-west-1:178803208374:userpool/eu-west-1_k4sXnTUMd"
+  },
+  "ServerlessTemplateUserStack": {
+    "ExportsOutputRefEndpointDeploymentStageprodB78BEEA077472637": "prod",
+    "Endpoint8024A810": "https://nwojxojvr2.execute-api.eu-west-1.amazonaws.com/prod/",
+    "ExportsOutputFnGetAttRootHandlerA9D88BE7Arn9A289C9F": "arn:aws:lambda:eu-west-1:178803208374:function:ServerlessTemplateUpdateReferrer",
+    "ExportsOutputRefEndpointEEF1FD8FA099C36A": "nwojxojvr2"
+  },
   "AwsServerlessTemplateStack": {
-    "Endpoint8024A810": "https://dvlk9nmi83.execute-api.eu-west-1.amazonaws.com/prod/",
-    "ApiEndpoint": "https://dvlk9nmi83.execute-api.eu-west-1.amazonaws.com/prod/"
+    "UserPoolClientID": "32rbs9pf5lvrthh7dji06um27g",
+    "UserPoolID": "eu-west-1_k4sXnTUMd",
+    "UserLambda": "arn:aws:lambda:eu-west-1:178803208374:function:ServerlessTemplateUpdateReferrer",
+    "IdentityPoolID": "eu-west-1:d67060c6-901f-461d-b85a-0dbb98cf6efb",
+    "UserApiEndpoint": "https://nwojxojvr2.execute-api.eu-west-1.amazonaws.com/prod/",
+    "UserPoolArn": "arn:aws:cognito-idp:eu-west-1:178803208374:userpool/eu-west-1_k4sXnTUMd"
   }
 }
