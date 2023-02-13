@@ -1,0 +1,1 @@
+cdk deploy -O aws_config.json
