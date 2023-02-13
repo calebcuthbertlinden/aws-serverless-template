@@ -1,0 +1,6 @@
+{
+  "AwsServerlessTemplateStack": {
+    "Endpoint8024A810": "https://dvlk9nmi83.execute-api.eu-west-1.amazonaws.com/prod/",
+    "ApiEndpoint": "https://dvlk9nmi83.execute-api.eu-west-1.amazonaws.com/prod/"
+  }
+}
