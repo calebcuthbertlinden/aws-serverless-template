@@ -1,6 +1,12 @@
 {
   "AwsServerlessTemplateStack": {
-    "Endpoint8024A810": "https://dvlk9nmi83.execute-api.eu-west-1.amazonaws.com/prod/",
-    "ApiEndpoint": "https://dvlk9nmi83.execute-api.eu-west-1.amazonaws.com/prod/"
+    "UserPoolClientID": "40klbt8rb2c14t5ge7mrsni3ug",
+    "UserPoolID": "eu-west-1_vMOhsTCUD",
+    "CreateUserLambda": "arn:aws:lambda:eu-west-1:178803208374:function:DevCreateUser",
+    "IdentityPoolID": "eu-west-1:af33c9f7-2cb5-42e5-aafb-3a395ff0b044",
+    "UserApiEndpoint": "https://jxms2hzrc2.execute-api.eu-west-1.amazonaws.com/prod/",
+    "UserInfoDB": "arn:aws:dynamodb:eu-west-1:178803208374:table/DevUserInfoTable",
+    "UserPoolArn": "arn:aws:cognito-idp:eu-west-1:178803208374:userpool/eu-west-1_vMOhsTCUD",
+    "FetchUserLambda": "arn:aws:lambda:eu-west-1:178803208374:function:DevFetchUser"
   }
 }
