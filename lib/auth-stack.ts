@@ -9,7 +9,7 @@ export interface AuthStackProps extends cdk.NestedStackProps {
     stackName: string;
 };
 
-export class AuthStack extends cdk.Stack {
+export class AuthStack extends cdk.NestedStack {
     public readonly userPool: cognito.UserPool;
     public readonly identityPool: cognito.CfnIdentityPool;
     public readonly userPoolClient: cognito.UserPoolClient;
@@ -17,7 +17,10 @@ export class AuthStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: AuthStackProps) {
         super(scope, id, props);
 
-        // User pool
+        // UserPool - Authentication
+        // ------------------------------------------------------------------------------------------
+        // User pools are for authentication (identity verification). 
+        // With a user pool, your app users can sign in through the user pool or federate through a third-party identity provider (IdP). 
         this.userPool = new cognito.UserPool(this, `${props.stage}UserPool`, {
             selfSignUpEnabled: true, // users can sign themselves up/as opposed to admin creating users
             signInAliases: { email: true }, // what is the user sign in alias
@@ -33,7 +36,12 @@ export class AuthStack extends cdk.Stack {
             removalPolicy: props.removalPolicy,
         });
 
-        // Secure client
+
+        // UserPoolClient
+        // ------------------------------------------------------------------------------------------
+        // A User Pool Client resource represents an Amazon Cognito User Pool Client that provides a way to 
+        // generate authentication tokens used to authorize a user for an application. Configuring a User Pool 
+        // Client then connecting it to a User Pool will generate to a User Pool client ID
         this.userPoolClient = new cognito.UserPoolClient(this, `${props.stage}UserPoolClient`, {
             userPool: this.userPool,
             authFlows: {
@@ -48,7 +56,12 @@ export class AuthStack extends cdk.Stack {
             ],
         });
 
-        // Secure identityPool
+        // CfnIdentityPool - Authorization
+        // ------------------------------------------------------------------------------------------
+        // Identity pools are for authorization (access control).
+        // Amazon Cognito identity pools provide temporary AWS credentials for users who are guests (unauthenticated) 
+        // and for users who have been authenticated and received a token. 
+        // An identity pool is a store of user identity data specific to your account.
         this.identityPool = new cognito.CfnIdentityPool(this, `${props.stage}UserIdentityPool`, {
             allowUnauthenticatedIdentities: false,
             cognitoIdentityProviders: [

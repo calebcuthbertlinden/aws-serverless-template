@@ -8,43 +8,37 @@ export class AwsServerlessTemplateStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const stage = "ServerlessTemplate"
-
+    const STAGE: string = this.node.tryGetContext('stage');
     const REMOVAL_POLICY = cdk.RemovalPolicy.DESTROY;
+
+    const createOutputValue = function (context: Construct, name: string, value: string) {
+      new cdk.CfnOutput(context, name, {
+        value: value,
+      });
+    }
 
     // Auth stack
     // Contains Cognito user pool used for sign up and authentication
-    const authStack = new AuthStack(this, `${stage}AuthStack`, {
-      stage: stage,
+    const authStack = new AuthStack(this, `${STAGE}AuthStack`, {
+      stage: STAGE,
       removal_policy: REMOVAL_POLICY,
-      stackName: `${stage}AuthStack`,
+      stackName: `${STAGE}AuthStack`,
     });
-    new cdk.CfnOutput(this, 'IdentityPoolID', {
-      value: authStack.identityPool.ref,
-    });
-    new cdk.CfnOutput(this, 'UserPoolArn', {
-      value: authStack.userPool.userPoolArn,
-    });
-    new cdk.CfnOutput(this, 'UserPoolID', {
-      value: authStack.userPool.userPoolId,
-    });
-    new cdk.CfnOutput(this, 'UserPoolClientID', {
-      value: authStack.userPoolClient.userPoolClientId,
-    });
+    createOutputValue(this, 'IdentityPoolID', authStack.identityPool.ref)
+    createOutputValue(this, 'UserPoolArn', authStack.userPool.userPoolArn)
+    createOutputValue(this, 'UserPoolID', authStack.userPool.userPoolId)
+    createOutputValue(this, 'UserPoolClientID', authStack.userPoolClient.userPoolClientId)
 
     // User stack
     // Contains user table, api gateway and lambdas to return and create users
-    const userStack = new UserStack(this, `${stage}UserStack`, {
-      stage: stage,
+    const userStack = new UserStack(this, `${STAGE}UserStack`, {
+      stage: STAGE,
       removal_policy: REMOVAL_POLICY,
-      stackName: `${stage}UserStack`,
+      stackName: `${STAGE}UserStack`,
     });
-    new cdk.CfnOutput(this, 'UserLambda', {
-      value: userStack.rootLambda.functionArn,
-    });
-    new cdk.CfnOutput(this, 'UserApiEndpoint', {
-      value: userStack.restApi.url,
-    });
-    
+    createOutputValue(this, 'CreateUserLambda', userStack.createUser.functionArn)
+    createOutputValue(this, 'FetchUserLambda', userStack.fetchUser.functionArn)
+    createOutputValue(this, 'UserApiEndpoint', userStack.restApi.url)
+    createOutputValue(this, 'UserInfoDB', userStack.infoTable.tableArn)
   }
 }
