@@ -1,8 +1,4 @@
-# Welcome to your CDK Serverless template- using Typescript
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-aws_config.json contains all identifiers and URLs that can be used to integrate with the AWS serverless backend
+# Welcome to your CDK Serverless template - using Typescript
 
 ## Setup
 
@@ -12,18 +8,30 @@ aws_config.json contains all identifiers and URLs that can be used to integrate 
 - Setup AWS account
 - Add IAM user with service credentials (access keys)
 - AWS configure (your credentials)
+- npm install
 
 ## Deploy scripts
 
--- sh deploy.sh
-    - this uses the .env file
-    - update the STAGE variable
-    - first synthensises and then deploys
-    ```
-        cdk synthesize
-        cdk deploy
-    ```
+NB - Before running these scripts, update the STAGE variable in ```.env``` to be specific to you (i.e CalebDev)
 
--- sh destroy.sh
-    - this uses the .env file
-    - update the STAGE variable
+
+### sh deploy.sh
+
+This script runs ```cdk synthesize``` and then ```cdk deploy```. <br/>
+It also outputs the url's and resource arn's to an ```aws_config.json``` file when finished deploying.
+
+
+### sh destroy.sh
+
+This script will destroy all your stacks and their resources. <br/>Run this once you are done with your developement to make sure resources don't incur unintended costs.
+
+## AWS resources used 
+
+### Cognito
+TODO
+### Lambda
+TODO
+### API Gateway
+TODO
+### DynamoDB
+TODO
